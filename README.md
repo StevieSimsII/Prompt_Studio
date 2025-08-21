@@ -3,6 +3,12 @@
 ## Overview
 A comprehensive Power Platform solution for IT organizations to submit, organize, and approve custom AI prompts for use with M365 Copilot and other Large Language Models.
 
+## 🎬 Live Demo
+
+![AI Prompt Studio Demo](Prompt_Studio_Demo.gif)
+
+*Interactive demonstration showcasing the complete AI Prompt Studio interface - from browsing prompts to submission and approval workflows*
+
 ## Features
 - **Prompt Submission**: Users can submit custom AI prompts with categorization
 - **Organization**: Prompts organized by Task Type and IT Persona
