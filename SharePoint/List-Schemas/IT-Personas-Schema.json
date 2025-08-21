@@ -1,0 +1,55 @@
+{
+  "listName": "IT Personas",
+  "description": "Defines the different IT roles and personas for organizing AI prompts",
+  "columns": [
+    {
+      "name": "Title",
+      "type": "Single line of text",
+      "required": true,
+      "description": "Name of the IT persona (e.g., 'Helpdesk Technician')"
+    },
+    {
+      "name": "PersonaDescription",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Detailed description of the persona's role and responsibilities"
+    },
+    {
+      "name": "Department",
+      "type": "Choice",
+      "required": true,
+      "choices": [
+        "Infrastructure",
+        "Security",
+        "Applications",
+        "Helpdesk",
+        "Network",
+        "Database",
+        "Cloud Services",
+        "DevOps"
+      ],
+      "description": "IT department this persona belongs to"
+    },
+    {
+      "name": "SortOrder",
+      "type": "Number",
+      "required": false,
+      "description": "Order for displaying personas in the app"
+    },
+    {
+      "name": "IsActive",
+      "type": "Yes/No",
+      "required": true,
+      "defaultValue": "Yes",
+      "description": "Whether this persona is currently active"
+    }
+  ],
+  "views": [
+    {
+      "name": "Active Personas",
+      "filter": "IsActive eq 'Yes'",
+      "sortBy": "SortOrder",
+      "fields": ["Title", "Department", "PersonaDescription"]
+    }
+  ]
+}

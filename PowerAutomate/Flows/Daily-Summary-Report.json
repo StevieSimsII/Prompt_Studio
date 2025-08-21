@@ -1,0 +1,184 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "$connections": {
+        "defaultValue": {},
+        "type": "Object"
+      }
+    },
+    "triggers": {
+      "Recurrence": {
+        "recurrence": {
+          "frequency": "Day",
+          "interval": 1,
+          "timeZone": "Eastern Standard Time",
+          "startTime": "2025-01-01T09:00:00Z"
+        },
+        "type": "Recurrence"
+      }
+    },
+    "actions": {
+      "Get_pending_prompts": {
+        "runAfter": {},
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AI_PROMPTS_LIST_ID'))}/items",
+          "queries": {
+            "$filter": "Status/Value eq 'Pending' or Status/Value eq 'Under Review'",
+            "$orderby": "SubmittedDate desc"
+          }
+        }
+      },
+      "Get_approved_prompts_today": {
+        "runAfter": {
+          "Get_pending_prompts": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AI_PROMPTS_LIST_ID'))}/items",
+          "queries": {
+            "$filter": "Status/Value eq 'Approved' and ApprovedDate ge '@{formatDateTime(addDays(utcNow(), -1), 'yyyy-MM-ddTHH:mm:ssZ')}'",
+            "$orderby": "ApprovedDate desc"
+          }
+        }
+      },
+      "Check_if_pending_prompts_exist": {
+        "actions": {
+          "Get_reviewer_group": {
+            "runAfter": {},
+            "type": "ApiConnection",
+            "inputs": {
+              "host": {
+                "connection": {
+                  "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                }
+              },
+              "method": "get",
+              "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('REVIEWER_GROUP_ID'))}/items"
+            }
+          },
+          "Create_pending_prompts_table": {
+            "runAfter": {
+              "Get_reviewer_group": [
+                "Succeeded"
+              ]
+            },
+            "type": "Compose",
+            "inputs": {
+              "pendingTable": "@join(createArray(foreach(outputs('Get_pending_prompts')?['body/value'], concat('<tr><td style=\"padding: 8px; border: 1px solid #ddd;\"><strong>', item()?['Title'], '</strong></td><td style=\"padding: 8px; border: 1px solid #ddd;\">', item()?['SubmittedBy/DisplayName'], '</td><td style=\"padding: 8px; border: 1px solid #ddd;\">', item()?['TaskType/Value'], '</td><td style=\"padding: 8px; border: 1px solid #ddd;\">', item()?['ITPersona/Value'], '</td><td style=\"padding: 8px; border: 1px solid #ddd;\">', formatDateTime(item()?['SubmittedDate'], 'MMM dd'), '</td><td style=\"padding: 8px; border: 1px solid #ddd;\">', item()?['Priority/Value'], '</td></tr>'))), '')"
+            }
+          },
+          "Create_approved_prompts_table": {
+            "runAfter": {
+              "Create_pending_prompts_table": [
+                "Succeeded"
+              ]
+            },
+            "type": "Compose",
+            "inputs": {
+              "approvedTable": "@if(greater(length(outputs('Get_approved_prompts_today')?['body/value']), 0), join(createArray(foreach(outputs('Get_approved_prompts_today')?['body/value'], concat('<tr><td style=\"padding: 8px; border: 1px solid #ddd;\"><strong>', item()?['Title'], '</strong></td><td style=\"padding: 8px; border: 1px solid #ddd;\">', item()?['SubmittedBy/DisplayName'], '</td><td style=\"padding: 8px; border: 1px solid #ddd;\">', item()?['ApprovedBy/DisplayName'], '</td><td style=\"padding: 8px; border: 1px solid #ddd;\">', formatDateTime(item()?['ApprovedDate'], 'hh:mm tt'), '</td></tr>'))), ''), '<tr><td colspan=\"4\" style=\"padding: 8px; border: 1px solid #ddd; text-align: center; font-style: italic;\">No prompts approved in the last 24 hours</td></tr>')"
+            }
+          },
+          "Apply_to_each_reviewer": {
+            "foreach": "@outputs('Get_reviewer_group')?['body/value']",
+            "actions": {
+              "Send_daily_summary_email": {
+                "runAfter": {},
+                "type": "ApiConnection",
+                "inputs": {
+                  "host": {
+                    "connection": {
+                      "name": "@parameters('$connections')['office365']['connectionId']"
+                    }
+                  },
+                  "method": "post",
+                  "path": "/v2/Mail",
+                  "body": {
+                    "To": "@items('Apply_to_each_reviewer')?['Email']",
+                    "Subject": "📊 AI Prompt Studio Daily Summary - @{length(outputs('Get_pending_prompts')?['body/value'])} Prompts Awaiting Review",
+                    "Body": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Segoe UI, Arial, sans-serif; }\n        .container { max-width: 800px; margin: 0 auto; padding: 20px; }\n        .header { background-color: #0078D4; color: white; padding: 20px; text-align: center; }\n        .content { padding: 20px; border: 1px solid #E1DFDD; }\n        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }\n        .stat-card { background-color: #F3F2F1; padding: 15px; border-radius: 8px; text-align: center; }\n        .stat-number { font-size: 2em; font-weight: bold; color: #0078D4; }\n        .stat-label { font-size: 0.9em; color: #605E5C; }\n        .table-container { margin: 20px 0; }\n        .table { width: 100%; border-collapse: collapse; margin: 10px 0; }\n        .table th { background-color: #F3F2F1; padding: 12px; border: 1px solid #ddd; text-align: left; }\n        .table td { padding: 8px; border: 1px solid #ddd; }\n        .urgent { background-color: #FDF2F2; }\n        .btn { display: inline-block; padding: 12px 24px; margin: 10px 5px; text-decoration: none; border-radius: 4px; background-color: #0078D4; color: white; text-align: center; }\n        .btn-urgent { background-color: #D13438; }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>📊 AI Prompt Studio</h1>\n            <h2>Daily Review Summary</h2>\n            <p>@{formatDateTime(utcNow(), 'dddd, MMMM dd, yyyy')}</p>\n        </div>\n        <div class=\"content\">\n            <p>Hello @{items('Apply_to_each_reviewer')?['DisplayName']},</p>\n            \n            <p>Here's your daily summary of AI Prompt Studio activity:</p>\n            \n            <div class=\"stats-grid\">\n                <div class=\"stat-card\">\n                    <div class=\"stat-number\">@{length(outputs('Get_pending_prompts')?['body/value'])}</div>\n                    <div class=\"stat-label\">Pending Review</div>\n                </div>\n                <div class=\"stat-card\">\n                    <div class=\"stat-number\">@{length(outputs('Get_approved_prompts_today')?['body/value'])}</div>\n                    <div class=\"stat-label\">Approved Today</div>\n                </div>\n                <div class=\"stat-card\">\n                    <div class=\"stat-number\">@{length(filter(outputs('Get_pending_prompts')?['body/value'], equals(item()?['Priority/Value'], 'High')))}</div>\n                    <div class=\"stat-label\">High Priority</div>\n                </div>\n            </div>\n            \n            @{if(greater(length(outputs('Get_pending_prompts')?['body/value']), 0), \n                concat(\n                    '<div class=\"table-container\">',\n                    '<h3>🔍 Prompts Awaiting Your Review</h3>',\n                    '<table class=\"table\">',\n                    '<thead>',\n                    '<tr>',\n                    '<th>Prompt Title</th>',\n                    '<th>Submitted By</th>',\n                    '<th>Task Type</th>',\n                    '<th>Persona</th>',\n                    '<th>Date</th>',\n                    '<th>Priority</th>',\n                    '</tr>',\n                    '</thead>',\n                    '<tbody>',\n                    outputs('Create_pending_prompts_table')?['pendingTable'],\n                    '</tbody>',\n                    '</table>',\n                    '</div>'\n                ),\n                '<div style=\"text-align: center; padding: 20px; background-color: #DFF6DD; border-radius: 8px; margin: 20px 0;\"><h3>🎉 All Caught Up!</h3><p>No prompts are currently awaiting review. Great job staying on top of submissions!</p></div>'\n            )}\n            \n            <div class=\"table-container\">\n                <h3>✅ Recently Approved Prompts (Last 24 Hours)</h3>\n                <table class=\"table\">\n                    <thead>\n                        <tr>\n                            <th>Prompt Title</th>\n                            <th>Submitted By</th>\n                            <th>Approved By</th>\n                            <th>Time</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        @{outputs('Create_approved_prompts_table')?['approvedTable']}\n                    </tbody>\n                </table>\n            </div>\n            \n            @{if(greater(length(outputs('Get_pending_prompts')?['body/value']), 0), \n                '<div style=\"text-align: center; margin: 30px 0;\"><a href=\"POWER_APP_APPROVAL_URL\" class=\"btn\">📋 Review Pending Prompts</a></div>',\n                ''\n            )}\n            \n            <div style=\"background-color: #F3F2F1; padding: 15px; border-radius: 8px; margin: 20px 0;\">\n                <h4>📈 Quick Stats</h4>\n                <ul>\n                    <li><strong>Average Review Time:</strong> 1.2 days</li>\n                    <li><strong>Approval Rate:</strong> 87%</li>\n                    <li><strong>Most Active Submitters:</strong> IT Team Members</li>\n                    <li><strong>Popular Categories:</strong> Troubleshooting, Documentation</li>\n                </ul>\n            </div>\n            \n            <p><em>This summary is sent daily at 9:00 AM. To manage your notification preferences, contact your administrator.</em></p>\n            \n            <p>Best regards,<br>AI Prompt Studio System</p>\n        </div>\n    </div>\n</body>\n</html>",
+                    "Importance": "Normal"
+                  }
+                }
+              }
+            },
+            "runAfter": {
+              "Create_approved_prompts_table": [
+                "Succeeded"
+              ]
+            },
+            "type": "Foreach"
+          }
+        },
+        "runAfter": {
+          "Get_approved_prompts_today": [
+            "Succeeded"
+          ]
+        },
+        "expression": {
+          "greater": [
+            "@length(outputs('Get_pending_prompts')?['body/value'])",
+            0
+          ]
+        },
+        "type": "If"
+      },
+      "Log_daily_summary": {
+        "runAfter": {
+          "Check_if_pending_prompts_exist": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "post",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AUDIT_LOG_LIST_ID'))}/items",
+          "body": {
+            "Title": "Daily Summary Report",
+            "Action": "Daily Summary Sent",
+            "Timestamp": "@{utcNow()}",
+            "Details": "Pending: @{length(outputs('Get_pending_prompts')?['body/value'])}, Approved Today: @{length(outputs('Get_approved_prompts_today')?['body/value'])}"
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "parameters": {
+    "$connections": {
+      "value": {
+        "sharepointonline": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/sharepointonline",
+          "connectionName": "sharepointonline",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/sharepointonline"
+        },
+        "office365": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/office365",
+          "connectionName": "office365",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/office365"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for single-page interface */
+        .tab-container {
+            background: var(--white);
+            border-radius: 12px 12px 0 0;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            overflow: hidden;
+        }
+        
+        .tab-nav {
+            display: flex;
+            background: var(--light-grey);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button:hover {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .tab-button.active {
+            background: var(--white);
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+        
+        .tab-content {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            min-height: 600px;
+        }
+        
+        .tab-pane {
+            display: none;
+            padding: 24px;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        .demo-section {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .demo-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .mini-form {
+            background: var(--light-grey);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .approval-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: var(--white);
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .mini-stat {
+            background: var(--light-grey);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .demo-prompt {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">AI</div>
+                Prompt Studio
+            </a>
+            
+            <div class="user-menu">
+                <div class="user-avatar">JD</div>
+                <span>John Doe (Demo User)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">AI Prompt Studio</h1>
+            <p class="page-subtitle">.</p>
+        </div>
+
+        <!-- Tabbed Interface -->
+        <div class="tab-container">
+            <div class="tab-nav">
+                <button class="tab-button active" onclick="showTab('dashboard')">🏠 Dashboard</button>
+                <button class="tab-button" onclick="showTab('browse')">🔍 Browse</button>
+                <button class="tab-button" onclick="showTab('submit')">➕ Submit</button>
+                <button class="tab-button" onclick="showTab('submissions')">📋 My Submissions</button>
+                <button class="tab-button" onclick="showTab('approval')">✅ Approvals</button>
+                <button class="tab-button" onclick="showTab('analytics')">📊 Analytics</button>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div class="tab-content">
+                <div id="dashboard" class="tab-pane active">
+                    <div class="demo-section">
+                        <h2 style="color: var(--primary-color); margin-bottom: 16px;">📊 Dashboard Overview</h2>
+                        <div class="quick-stats">
+                            <div class="mini-stat">
+                                <div style="font-size: 24px; font-weight: bold; color: var(--accent-color);">247</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Total Prompts</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 24px; font-weight: bold; color: var(--warning-color);">12</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Pending Review</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 24px; font-weight: bold; color: var(--success-color);">8</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">My Submissions</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">34</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">This Week</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">🚀 Quick Actions</h3>
+                        <div class="feature-grid">
+                            <div class="card">
+                                <div class="card-content">
+                                    <h4 style="margin-bottom: 8px;">Submit New Prompt</h4>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Share your AI expertise with the team</p>
+                                    <button class="btn btn-primary" onclick="showTab('submit')">Create Prompt →</button>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-content">
+                                    <h4 style="margin-bottom: 8px;">Browse Library</h4>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Explore IT-focused AI prompts</p>
+                                    <button class="btn btn-secondary" onclick="showTab('browse')">Browse All →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">⚡ Recent Activity</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <div>
+                                    <h4 style="margin: 0 0 4px 0; color: var(--primary-color);">Server Performance Analysis</h4>
+                                    <div style="display: flex; gap: 8px; margin-bottom: 4px;">
+                                        <span class="badge badge-primary">Performance Analysis</span>
+                                        <span class="badge badge-secondary">System Administrator</span>
+                                    </div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">by Sarah Chen • 2 hours ago</span>
+                                </div>
+                                <span class="status status-approved"><span class="status-dot"></span>Approved</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <div>
+                                    <h4 style="margin: 0 0 4px 0; color: var(--primary-color);">Network Troubleshooting Guide</h4>
+                                    <div style="display: flex; gap: 8px; margin-bottom: 4px;">
+                                        <span class="badge badge-warning">Troubleshooting</span>
+                                        <span class="badge badge-secondary">Network Engineer</span>
+                                    </div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">by Mike Rodriguez • 5 hours ago</span>
+                                </div>
+                                <span class="status status-pending"><span class="status-dot"></span>Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Browse Tab -->
+                <div id="browse" class="tab-pane">
+                    <div class="demo-section">
+                        <h2 style="color: var(--primary-color); margin-bottom: 16px;">🔍 Browse AI Prompts</h2>
+                        <div class="mini-form">
+                            <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                <input type="text" class="form-input" placeholder="Search prompts..." style="flex: 1;">
+                                <button class="btn btn-primary">Search</button>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                                <select class="form-select">
+                                    <option>All Task Types</option>
+                                    <option>Troubleshooting</option>
+                                    <option>Analysis</option>
+                                    <option>Documentation</option>
+                                </select>
+                                <select class="form-select">
+                                    <option>All Personas</option>
+                                    <option>System Admin</option>
+                                    <option>Network Engineer</option>
+                                    <option>Security Analyst</option>
+                                </select>
+                                <button class="btn btn-secondary">Clear Filters</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">📚 Available Prompts (247 found)</h3>
+                        <div class="feature-grid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Server Performance Analysis</h4>
+                                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                        <span class="badge badge-primary">Performance</span>
+                                        <span class="badge badge-secondary">SysAdmin</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+                                        Analyzes server metrics and provides actionable recommendations...
+                                    </p>
+                                    <div class="demo-prompt">
+                                        Act as an experienced System Administrator. Analyze the following server performance metrics...
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);">
+                                        <span>by Sarah Chen</span>
+                                        <span>👁 24 views</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary">View Details</button>
+                                    <button class="btn btn-secondary">Copy</button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Security Incident Response</h4>
+                                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                        <span class="badge badge-danger">Security</span>
+                                        <span class="badge badge-secondary">Security Analyst</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+                                        Creates structured incident response plans for security events...
+                                    </p>
+                                    <div class="demo-prompt">
+                                        Act as a Security Analyst responding to a potential security incident...
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary);">
+                                        <span>by Alex Kim</span>
+                                        <span>👁 18 views</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary">View Details</button>
+                                    <button class="btn btn-secondary">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Tab -->
+                <div id="submit" class="tab-pane">
+                    <div class="demo-section">
+                        <h2 style="color: var(--primary-color); margin-bottom: 16px;">➕ Submit New AI Prompt</h2>
+                        <div style="display: flex; justify-content: center; margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                                    <span style="color: var(--accent-color); font-weight: 500;">Basic Info</span>
+                                </div>
+                                <div style="width: 40px; height: 2px; background: var(--border-color);"></div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--border-color); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                                    <span style="color: var(--text-secondary);">Category</span>
+                                </div>
+                                <div style="width: 40px; height: 2px; background: var(--border-color);"></div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--border-color); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                                    <span style="color: var(--text-secondary);">Review</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">📝 Step 1: Basic Information</h3>
+                        <div class="mini-form">
+                            <div class="form-group">
+                                <label class="form-label">Prompt Title *</label>
+                                <input type="text" class="form-input" placeholder="e.g., Database Performance Optimization" value="Network Security Vulnerability Scanner">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description *</label>
+                                <textarea class="form-textarea" placeholder="Describe what this prompt does..." style="min-height: 80px;">Creates automated vulnerability scanning procedures for network infrastructure with prioritized remediation steps.</textarea>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="form-group">
+                                    <label class="form-label">Task Type *</label>
+                                    <select class="form-select">
+                                        <option>Security Assessment</option>
+                                        <option>Performance Analysis</option>
+                                        <option>Troubleshooting</option>
+                                        <option>Documentation</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">IT Persona *</label>
+                                    <select class="form-select">
+                                        <option>Security Analyst</option>
+                                        <option>Network Engineer</option>
+                                        <option>System Administrator</option>
+                                        <option>Helpdesk Technician</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Prompt Text *</label>
+                                <textarea class="form-textarea" style="min-height: 120px; font-family: monospace; font-size: 13px;">Act as a Senior Security Analyst conducting a network vulnerability assessment. 
+
+Using the network scan results below, provide:
+1. Critical vulnerabilities requiring immediate attention
+2. Medium/low priority items with timelines
+3. Specific remediation steps for each finding
+4. Risk assessment with business impact
+5. Compliance implications (if any)
+
+Format your response as an executive summary with technical appendix.
+
+Network Scan Data: [INSERT SCAN RESULTS HERE]</textarea>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                                <button class="btn btn-secondary">Save Draft</button>
+                                <div style="display: flex; gap: 12px;">
+                                    <button class="btn btn-secondary">Cancel</button>
+                                    <button class="btn btn-primary">Submit for Review</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">💡 Quality Guidelines</h3>
+                        <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--success-color); margin-bottom: 8px;">✅ Best Practices</h4>
+                                    <ul style="font-size: 14px; color: var(--text-secondary); margin: 0; padding-left: 20px;">
+                                        <li>Be specific about AI role and expertise</li>
+                                        <li>Include context and business situation</li>
+                                        <li>Specify desired output format</li>
+                                        <li>Use clear, actionable language</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--danger-color); margin-bottom: 8px;">❌ Avoid</h4>
+                                    <ul style="font-size: 14px; color: var(--text-secondary); margin: 0; padding-left: 20px;">
+                                        <li>Overly complex or vague prompts</li>
+                                        <li>Including actual company data</li>
+                                        <li>Technical jargon without context</li>
+                                        <li>Copying external content</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Submissions Tab -->
+                <div id="submissions" class="tab-pane">
+                    <div class="demo-section">
+                        <h2 style="color: var(--primary-color); margin-bottom: 16px;">📋 My Submissions</h2>
+                        <div class="quick-stats">
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--primary-color);">8</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Total</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--success-color);">5</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Approved</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--warning-color);">2</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Pending</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--danger-color);">1</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Needs Revision</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">📄 Submission History</h3>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <!-- Approved Submission -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                                        <div>
+                                            <h4 class="card-title" style="margin: 0 0 8px 0;">Azure Cost Optimization Analysis</h4>
+                                            <div style="display: flex; gap: 8px;">
+                                                <span class="badge badge-primary">Analysis</span>
+                                                <span class="badge badge-secondary">Cloud Engineer</span>
+                                            </div>
+                                        </div>
+                                        <span class="status status-approved"><span class="status-dot"></span>Approved</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+                                        Analyzes Azure resource utilization and provides cost optimization recommendations...
+                                    </p>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                                        <span>Submitted: Mar 15 • Approved: Mar 16</span>
+                                        <span>👁 24 views • 📋 3 copies</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary">View Details</button>
+                                    <button class="btn btn-secondary">Analytics</button>
+                                </div>
+                            </div>
+
+                            <!-- Pending Submission -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                                        <div>
+                                            <h4 class="card-title" style="margin: 0 0 8px 0;">PowerShell Error Diagnostic</h4>
+                                            <div style="display: flex; gap: 8px;">
+                                                <span class="badge badge-success">Script Generation</span>
+                                                <span class="badge badge-secondary">System Admin</span>
+                                            </div>
+                                        </div>
+                                        <span class="status status-pending"><span class="status-dot"></span>Pending</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+                                        Creates PowerShell scripts to diagnose and log common system errors...
+                                    </p>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                                        <span>Submitted: Mar 18</span>
+                                        <span style="color: var(--warning-color);">⏰ 2 days in review</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-secondary">Withdraw</button>
+                                </div>
+                            </div>
+
+                            <!-- Needs Revision -->
+                            <div class="card" style="border-left: 4px solid var(--danger-color);">
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                                        <div>
+                                            <h4 class="card-title" style="margin: 0 0 8px 0;">Network Security Assessment</h4>
+                                            <div style="display: flex; gap: 8px;">
+                                                <span class="badge badge-danger">Security</span>
+                                                <span class="badge badge-secondary">Security Analyst</span>
+                                            </div>
+                                        </div>
+                                        <span class="status status-rejected"><span class="status-dot"></span>Needs Revision</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 12px;">
+                                        <h5 style="color: var(--warning-color); margin-bottom: 6px; font-size: 13px;">📝 Feedback</h5>
+                                        <p style="color: #856404; font-size: 12px; margin: 0;">
+                                            "Needs more specific tool guidance and clearer output formats. Add examples of expected results."
+                                        </p>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                                        <span>Submitted: Mar 12 • Reviewed: Mar 14</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary">Revise & Resubmit</button>
+                                    <button class="btn btn-secondary">View Feedback</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approval Tab -->
+                <div id="approval" class="tab-pane">
+                    <div class="demo-section">
+                        <h2 style="color: var(--primary-color); margin-bottom: 16px;">✅ Approval Dashboard</h2>
+                        <div class="quick-stats">
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--warning-color);">12</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Pending</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--danger-color);">3</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">High Priority</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--success-color);">28</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">This Month</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--accent-color);">1.2</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Avg Days</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">⏳ Pending Reviews</h3>
+                        <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                            <button class="btn btn-success">✓ Bulk Approve</button>
+                            <button class="btn btn-danger">✗ Bulk Reject</button>
+                            <button class="btn btn-secondary">📊 Export Report</button>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <!-- High Priority Review -->
+                            <div class="card" style="border-left: 4px solid var(--warning-color);">
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                                        <div style="display: flex; align-items: start; gap: 12px;">
+                                            <input type="checkbox" style="margin-top: 4px;">
+                                            <div>
+                                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                                    <h4 class="card-title" style="margin: 0;">Critical Security Vulnerability Assessment</h4>
+                                                    <span class="badge badge-warning">HIGH PRIORITY</span>
+                                                </div>
+                                                <div style="display: flex; gap: 8px;">
+                                                    <span class="badge badge-danger">Security</span>
+                                                    <span class="badge badge-secondary">Security Analyst</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+                                            <div>by Alex Kim</div>
+                                            <div>3 hours ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 14px;">
+                                        Creates comprehensive security vulnerability assessment procedures for critical systems...
+                                    </p>
+                                    <div class="demo-prompt" style="margin-bottom: 12px;">
+                                        Act as a Senior Security Analyst conducting a critical vulnerability assessment. Analyze the following security data and provide immediate action items with risk ratings...
+                                    </div>
+                                    <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; margin-bottom: 12px;">
+                                        <span style="font-size: 12px; color: var(--text-secondary);">
+                                            ✓ Clear instructions • ✓ Appropriate category • ✓ Technical accuracy • ? Output format clarity
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-success">✓ Approve</button>
+                                    <button class="btn btn-danger">✗ Reject</button>
+                                    <button class="btn btn-secondary">💬 Request Changes</button>
+                                </div>
+                            </div>
+
+                            <!-- Standard Review -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                                        <div style="display: flex; align-items: start; gap: 12px;">
+                                            <input type="checkbox" style="margin-top: 4px;">
+                                            <div>
+                                                <h4 class="card-title" style="margin: 0 0 8px 0;">Database Backup Verification Script</h4>
+                                                <div style="display: flex; gap: 8px;">
+                                                    <span class="badge badge-success">Script Generation</span>
+                                                    <span class="badge badge-secondary">DBA</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+                                            <div>by Emily Johnson</div>
+                                            <div>1 day ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 14px;">
+                                        Generates PowerShell scripts for automated database backup verification with comprehensive error handling...
+                                    </p>
+                                    <div style="background: #f8f9fa; padding: 8px; border-radius: 4px; margin-bottom: 12px;">
+                                        <span style="font-size: 12px; color: var(--success-color);">
+                                            ✓ Ready for approval - All criteria met
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-success">✓ Approve</button>
+                                    <button class="btn btn-danger">✗ Reject</button>
+                                    <button class="btn btn-secondary">👁 Full Review</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">📈 Review Performance</h3>
+                        <div style="background: var(--light-grey); padding: 16px; border-radius: 8px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 16px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: var(--success-color);">94%</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">Approval Rate</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: var(--accent-color);">156</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">Total Reviews</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: var(--primary-color);">0.8</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">Avg Review Days</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-pane">
+                    <div class="demo-section">
+                        <h2 style="color: var(--primary-color); margin-bottom: 16px;">📊 Analytics & Insights</h2>
+                        <div class="quick-stats">
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--accent-color);">247</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Total Prompts</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--success-color);">1,847</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Total Views</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--warning-color);">423</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Copies Made</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div style="font-size: 20px; font-weight: bold; color: var(--primary-color);">87%</div>
+                                <div style="font-size: 12px; color: var(--text-secondary);">Approval Rate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">📈 Popular Categories</h3>
+                        <div class="feature-grid">
+                            <div class="card">
+                                <div class="card-content text-center">
+                                    <div style="font-size: 32px; margin-bottom: 12px;">🔧</div>
+                                    <h4 style="margin-bottom: 8px;">Troubleshooting</h4>
+                                    <div style="font-size: 24px; font-weight: bold; color: var(--accent-color); margin-bottom: 4px;">67</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">prompts • 482 views</div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-content text-center">
+                                    <div style="font-size: 32px; margin-bottom: 12px;">📊</div>
+                                    <h4 style="margin-bottom: 8px;">Analysis</h4>
+                                    <div style="font-size: 24px; font-weight: bold; color: var(--success-color); margin-bottom: 4px;">45</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">prompts • 378 views</div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-content text-center">
+                                    <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
+                                    <h4 style="margin-bottom: 8px;">Security</h4>
+                                    <div style="font-size: 24px; font-weight: bold; color: var(--danger-color); margin-bottom: 4px;">29</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">prompts • 201 views</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">👥 Top Contributors</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div class="user-avatar" style="width: 32px; height: 32px;">SC</div>
+                                    <div>
+                                        <h5 style="margin: 0; color: var(--primary-color);">Sarah Chen</h5>
+                                        <span style="font-size: 12px; color: var(--text-secondary);">Senior System Administrator</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: bold; color: var(--accent-color);">23 prompts</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">95% approval rate</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div class="user-avatar" style="width: 32px; height: 32px;">AK</div>
+                                    <div>
+                                        <h5 style="margin: 0; color: var(--primary-color);">Alex Kim</h5>
+                                        <span style="font-size: 12px; color: var(--text-secondary);">Security Analyst</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: bold; color: var(--success-color);">18 prompts</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">89% approval rate</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div class="user-avatar" style="width: 32px; height: 32px;">MR</div>
+                                    <div>
+                                        <h5 style="margin: 0; color: var(--primary-color);">Mike Rodriguez</h5>
+                                        <span style="font-size: 12px; color: var(--text-secondary);">Network Engineer</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: bold; color: var(--warning-color);">15 prompts</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);">92% approval rate</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 style="color: var(--primary-color); margin-bottom: 16px;">📅 Recent Trends</h3>
+                        <div style="background: var(--light-grey); padding: 20px; border-radius: 8px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                                <div>
+                                    <h5 style="color: var(--primary-color); margin-bottom: 8px;">This Week</h5>
+                                    <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: var(--text-secondary);">
+                                        <li>34 new prompts submitted</li>
+                                        <li>28 prompts approved</li>
+                                        <li>156 prompt views</li>
+                                        <li>42 prompts copied</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 style="color: var(--primary-color); margin-bottom: 8px;">Growth</h5>
+                                    <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: var(--text-secondary);">
+                                        <li>↗️ 23% more submissions vs last week</li>
+                                        <li>↗️ 15% faster approval times</li>
+                                        <li>↗️ 31% more active users</li>
+                                        <li>→ Stable approval rates</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab panes
+            const panes = document.querySelectorAll('.tab-pane');
+            panes.forEach(pane => pane.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab pane
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

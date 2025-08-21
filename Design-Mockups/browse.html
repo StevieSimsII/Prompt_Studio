@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Prompts - AI Prompt Studio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">AI</div>
+                AI Prompt Studio
+            </a>
+            
+            <nav>
+                <ul class="nav">
+                    <li><a href="home.html" class="nav-link">Home</a></li>
+                    <li><a href="browse.html" class="nav-link active">Browse</a></li>
+                    <li><a href="submit.html" class="nav-link">Submit</a></li>
+                    <li><a href="my-submissions.html" class="nav-link">My Submissions</a></li>
+                    <li><a href="approval.html" class="nav-link">Approvals</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Browse AI Prompts</h1>
+            <p class="page-subtitle">Discover approved prompts organized by IT roles and task types. Find the perfect prompt for your needs.</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search prompts by title, description, or keywords...">
+                <button class="btn btn-primary">Search</button>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="form-label">Task Type</label>
+                    <select class="form-select">
+                        <option>All Task Types</option>
+                        <option>Incident Troubleshooting</option>
+                        <option>Performance Analysis</option>
+                        <option>Documentation Creation</option>
+                        <option>Security Assessment</option>
+                        <option>Script Generation</option>
+                        <option>User Communication</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="form-label">IT Persona</label>
+                    <select class="form-select">
+                        <option>All Personas</option>
+                        <option>Helpdesk Technician</option>
+                        <option>System Administrator</option>
+                        <option>Network Engineer</option>
+                        <option>Security Analyst</option>
+                        <option>Database Administrator</option>
+                        <option>Cloud Engineer</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="form-label">Department</label>
+                    <select class="form-select">
+                        <option>All Departments</option>
+                        <option>Infrastructure</option>
+                        <option>Security</option>
+                        <option>Applications</option>
+                        <option>Network</option>
+                        <option>Helpdesk</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group" style="display: flex; align-items: end;">
+                    <button class="btn btn-secondary">Clear Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Header -->
+        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 24px;">
+            <div>
+                <h3 style="color: var(--primary-color); margin-bottom: 4px;">247 Prompts Found</h3>
+                <p style="color: var(--text-secondary); font-size: 14px;">Showing all approved prompts</p>
+            </div>
+            <div>
+                <select class="form-select" style="width: auto;">
+                    <option>Sort by: Most Recent</option>
+                    <option>Sort by: Most Popular</option>
+                    <option>Sort by: Title A-Z</option>
+                    <option>Sort by: Task Type</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Prompts Grid -->
+        <div class="grid grid-2">
+            <!-- Prompt Card 1 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Server Performance Analysis Prompt</h3>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <span class="badge badge-primary">Performance Analysis</span>
+                        <span class="badge badge-secondary">System Administrator</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Helps system administrators analyze server performance data and create actionable improvement plans. Provides structured analysis with prioritized recommendations.
+                    </p>
+                    <div style="background: var(--light-grey); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary);">
+                            Act as an experienced System Administrator. Analyze the following server performance metrics and provide actionable recommendations...
+                        </p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                        <span>by Sarah Chen • 2 hours ago</span>
+                        <span>👁 15 views</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Copy Prompt</button>
+                </div>
+            </div>
+
+            <!-- Prompt Card 2 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Network Troubleshooting Guide Generator</h3>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <span class="badge badge-warning">Incident Troubleshooting</span>
+                        <span class="badge badge-secondary">Network Engineer</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Creates detailed network troubleshooting procedures for common network issues. Perfect for training new engineers and standardizing approaches.
+                    </p>
+                    <div style="background: var(--light-grey); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary);">
+                            You are a senior Network Engineer creating a troubleshooting guide. Based on the network issue described below...
+                        </p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                        <span>by Mike Rodriguez • 1 day ago</span>
+                        <span>👁 23 views</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Copy Prompt</button>
+                </div>
+            </div>
+
+            <!-- Prompt Card 3 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Security Incident Response Plan</h3>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <span class="badge badge-danger">Security Assessment</span>
+                        <span class="badge badge-secondary">Security Analyst</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Generates structured incident response plans for security events with clear timelines and stakeholder notifications.
+                    </p>
+                    <div style="background: var(--light-grey); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary);">
+                            Act as a Security Analyst responding to a potential security incident. Create an incident response plan...
+                        </p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                        <span>by Alex Kim • 2 days ago</span>
+                        <span>👁 18 views</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Copy Prompt</button>
+                </div>
+            </div>
+
+            <!-- Prompt Card 4 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Database Backup Verification Script</h3>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <span class="badge badge-success">Script Generation</span>
+                        <span class="badge badge-secondary">Database Administrator</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Generates PowerShell scripts for automated database backup verification with comprehensive error handling and reporting.
+                    </p>
+                    <div style="background: var(--light-grey); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary);">
+                            As a Database Administrator, create a PowerShell script to verify database backup integrity...
+                        </p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                        <span>by Emily Johnson • 3 days ago</span>
+                        <span>👁 31 views</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Copy Prompt</button>
+                </div>
+            </div>
+
+            <!-- Prompt Card 5 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">User Communication Template</h3>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <span class="badge badge-primary">User Communication</span>
+                        <span class="badge badge-secondary">Helpdesk Technician</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Creates clear, professional communication templates for explaining technical issues to end users in non-technical language.
+                    </p>
+                    <div style="background: var(--light-grey); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary);">
+                            You are an experienced Helpdesk Technician. Create a user-friendly communication template...
+                        </p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                        <span>by David Park • 4 days ago</span>
+                        <span>👁 27 views</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Copy Prompt</button>
+                </div>
+            </div>
+
+            <!-- Prompt Card 6 -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Cloud Cost Optimization Analysis</h3>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <span class="badge badge-primary">Analysis & Reporting</span>
+                        <span class="badge badge-secondary">Cloud Engineer</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Analyzes cloud spending patterns and provides specific recommendations for cost optimization across different cloud services.
+                    </p>
+                    <div style="background: var(--light-grey); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary);">
+                            Act as a Cloud Engineer specializing in cost optimization. Review the following cloud usage data...
+                        </p>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-secondary);">
+                        <span>by Lisa Wong • 1 week ago</span>
+                        <span>👁 42 views</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Copy Prompt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-4">
+            <button class="btn btn-secondary">Load More Prompts</button>
+        </div>
+    </main>
+</body>
+</html>

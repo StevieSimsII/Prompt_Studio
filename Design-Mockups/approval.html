@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval Dashboard - AI Prompt Studio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">AI</div>
+                AI Prompt Studio
+            </a>
+            
+            <nav>
+                <ul class="nav">
+                    <li><a href="home.html" class="nav-link">Home</a></li>
+                    <li><a href="browse.html" class="nav-link">Browse</a></li>
+                    <li><a href="submit.html" class="nav-link">Submit</a></li>
+                    <li><a href="my-submissions.html" class="nav-link">My Submissions</a></li>
+                    <li><a href="approval.html" class="nav-link active">Approvals</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-avatar">SC</div>
+                <span>Sarah Chen</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Approval Dashboard</h1>
+            <p class="page-subtitle">Review and approve submitted prompts. Help maintain quality standards while encouraging team contributions.</p>
+        </div>
+
+        <!-- Review Stats -->
+        <div class="stats-grid mb-4">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">High Priority</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">28</div>
+                <div class="stat-label">Approved This Month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1.2</div>
+                <div class="stat-label">Avg Review Days</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="display: flex; gap: 16px; margin-bottom: 32px;">
+            <button class="btn btn-success">✓ Bulk Approve Selected</button>
+            <button class="btn btn-danger">✗ Bulk Reject Selected</button>
+            <button class="btn btn-secondary">📊 Export Review Report</button>
+            <div style="margin-left: auto;">
+                <select class="form-select">
+                    <option>Sort by: Oldest First</option>
+                    <option>Sort by: Priority</option>
+                    <option>Sort by: Submitter</option>
+                    <option>Sort by: Category</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Pending Reviews -->
+        <div class="grid grid-1">
+            <!-- High Priority Review -->
+            <div class="card" style="border-left: 4px solid var(--warning-color);">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="display: flex; align-items: start; gap: 12px;">
+                            <input type="checkbox" style="margin-top: 4px;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                    <h3 class="card-title" style="margin: 0;">Critical Security Vulnerability Assessment</h3>
+                                    <span class="badge badge-warning">HIGH PRIORITY</span>
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <span class="badge badge-danger">Security Assessment</span>
+                                    <span class="badge badge-secondary">Security Analyst</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+                            <div>by Alex Kim</div>
+                            <div>3 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Creates comprehensive security vulnerability assessment procedures for critical system components with immediate response protocols.
+                    </p>
+                    
+                    <!-- Prompt Preview -->
+                    <div style="background: var(--light-grey); padding: 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+                        <h5 style="margin-bottom: 8px; color: var(--primary-color); font-size: 14px;">Prompt Preview:</h5>
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary); line-height: 1.4; margin: 0;">
+                            Act as a Senior Security Analyst conducting a critical vulnerability assessment. Analyze the following security data and provide immediate action items with risk ratings...
+                        </p>
+                        <button style="background: none; border: none; color: var(--accent-color); font-size: 12px; margin-top: 8px; cursor: pointer;">View Full Prompt →</button>
+                    </div>
+
+                    <!-- Review Checklist -->
+                    <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <h5 style="font-size: 13px; margin-bottom: 8px; color: var(--primary-color);">✓ Review Checklist:</h5>
+                        <div style="font-size: 12px; color: var(--text-secondary);">
+                            ✓ Clear instructions • ✓ Appropriate category • ✓ Technical accuracy • ? Output format clarity
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 14px; color: var(--text-secondary);">
+                            <span>Expected Output: Structured assessment report</span>
+                        </div>
+                        <div style="color: var(--warning-color); font-size: 12px; font-weight: 500;">
+                            ⚠️ Escalated due to urgency
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-success">✓ Approve</button>
+                        <button class="btn btn-danger">✗ Reject</button>
+                        <button class="btn btn-secondary">💬 Request Changes</button>
+                        <button class="btn btn-secondary">👁 Full Review</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Review -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="display: flex; align-items: start; gap: 12px;">
+                            <input type="checkbox" style="margin-top: 4px;">
+                            <div>
+                                <h3 class="card-title" style="margin-bottom: 8px;">PowerShell Log Analysis Assistant</h3>
+                                <div style="display: flex; gap: 8px;">
+                                    <span class="badge badge-success">Script Generation</span>
+                                    <span class="badge badge-secondary">System Administrator</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+                            <div>by Mike Rodriguez</div>
+                            <div>1 day ago</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Generates PowerShell scripts to analyze system logs and identify patterns, errors, and performance issues with automated reporting.
+                    </p>
+                    
+                    <div style="background: var(--light-grey); padding: 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+                        <h5 style="margin-bottom: 8px; color: var(--primary-color); font-size: 14px;">Prompt Preview:</h5>
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary); line-height: 1.4; margin: 0;">
+                            As an experienced System Administrator, create a PowerShell script that analyzes Windows event logs for the following criteria...
+                        </p>
+                        <button style="background: none; border: none; color: var(--accent-color); font-size: 12px; margin-top: 8px; cursor: pointer;">View Full Prompt →</button>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <h5 style="font-size: 13px; margin-bottom: 8px; color: var(--primary-color);">✓ Review Checklist:</h5>
+                        <div style="font-size: 12px; color: var(--text-secondary);">
+                            ✓ Clear instructions • ✓ Appropriate category • ✓ Technical accuracy • ✓ Output format clarity
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 14px; color: var(--text-secondary);">
+                            <span>Expected Output: PowerShell script with documentation</span>
+                        </div>
+                        <div style="color: var(--success-color); font-size: 12px; font-weight: 500;">
+                            ✓ Ready for approval
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-success">✓ Approve</button>
+                        <button class="btn btn-danger">✗ Reject</button>
+                        <button class="btn btn-secondary">💬 Request Changes</button>
+                        <button class="btn btn-secondary">👁 Full Review</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review with Issues -->
+            <div class="card" style="border-left: 4px solid #ffc107;">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="display: flex; align-items: start; gap: 12px;">
+                            <input type="checkbox" style="margin-top: 4px;">
+                            <div>
+                                <h3 class="card-title" style="margin-bottom: 8px;">Network Bandwidth Optimization Guide</h3>
+                                <div style="display: flex; gap: 8px;">
+                                    <span class="badge badge-primary">Performance Analysis</span>
+                                    <span class="badge badge-secondary">Network Engineer</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+                            <div>by Emily Johnson</div>
+                            <div>2 days ago</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                        Analyzes network traffic patterns and provides bandwidth optimization recommendations for improving network performance.
+                    </p>
+                    
+                    <div style="background: var(--light-grey); padding: 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+                        <h5 style="margin-bottom: 8px; color: var(--primary-color); font-size: 14px;">Prompt Preview:</h5>
+                        <p style="font-size: 13px; font-family: monospace; color: var(--text-primary); line-height: 1.4; margin: 0;">
+                            You are a Network Engineer specializing in performance optimization. Review the network utilization data below...
+                        </p>
+                        <button style="background: none; border: none; color: var(--accent-color); font-size: 12px; margin-top: 8px; cursor: pointer;">View Full Prompt →</button>
+                    </div>
+
+                    <!-- Review Notes -->
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 16px;">
+                        <h5 style="color: var(--warning-color); margin-bottom: 8px; font-size: 13px;">⚠️ Review Notes:</h5>
+                        <p style="color: #856404; font-size: 12px; margin: 0;">
+                            The prompt could benefit from more specific guidance on tool selection and measurement criteria. Consider adding examples of baseline metrics.
+                        </p>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <h5 style="font-size: 13px; margin-bottom: 8px; color: var(--primary-color);">Review Checklist:</h5>
+                        <div style="font-size: 12px; color: var(--text-secondary);">
+                            ✓ Clear instructions • ✓ Appropriate category • ? Technical specificity • ? Output format clarity
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 14px; color: var(--text-secondary);">
+                            <span>Expected Output: Optimization recommendations report</span>
+                        </div>
+                        <div style="color: var(--warning-color); font-size: 12px; font-weight: 500;">
+                            ⚠️ Needs minor improvements
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-success">✓ Approve</button>
+                        <button class="btn btn-danger">✗ Reject</button>
+                        <button class="btn btn-secondary">💬 Request Changes</button>
+                        <button class="btn btn-secondary">👁 Full Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-4">
+            <button class="btn btn-secondary">Load More Reviews (9 remaining)</button>
+        </div>
+
+        <!-- Quick Stats Card -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3 class="card-title">Review Performance</h3>
+                <p class="card-subtitle">Your contribution to maintaining quality standards</p>
+            </div>
+            <div class="card-content">
+                <div class="grid grid-4">
+                    <div class="text-center">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--success-color); margin-bottom: 4px;">94%</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Approval Rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--accent-color); margin-bottom: 4px;">156</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Total Reviews</div>
+                    </div>
+                    <div class="text-center">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--primary-color); margin-bottom: 4px;">0.8</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Avg Days to Review</div>
+                    </div>
+                    <div class="text-center">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--warning-color); margin-bottom: 4px;">2</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Pending This Week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

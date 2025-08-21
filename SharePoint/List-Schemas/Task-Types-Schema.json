@@ -1,0 +1,61 @@
+{
+  "listName": "Task Types",
+  "description": "Categories of tasks that AI prompts can help with",
+  "columns": [
+    {
+      "name": "Title",
+      "type": "Single line of text",
+      "required": true,
+      "description": "Name of the task type (e.g., 'Troubleshooting')"
+    },
+    {
+      "name": "TaskDescription",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Detailed description of what this task type covers"
+    },
+    {
+      "name": "Category",
+      "type": "Choice",
+      "required": true,
+      "choices": [
+        "Incident Management",
+        "Problem Solving",
+        "Documentation",
+        "Analysis & Reporting",
+        "Automation",
+        "Communication",
+        "Training & Knowledge",
+        "Planning & Strategy"
+      ],
+      "description": "High-level category for grouping task types"
+    },
+    {
+      "name": "SortOrder",
+      "type": "Number",
+      "required": false,
+      "description": "Order for displaying task types in the app"
+    },
+    {
+      "name": "IsActive",
+      "type": "Yes/No",
+      "required": true,
+      "defaultValue": "Yes",
+      "description": "Whether this task type is currently active"
+    },
+    {
+      "name": "IconName",
+      "type": "Single line of text",
+      "required": false,
+      "description": "Icon name for Power Apps display (e.g., 'Settings', 'Bug')"
+    }
+  ],
+  "views": [
+    {
+      "name": "Active Task Types",
+      "filter": "IsActive eq 'Yes'",
+      "sortBy": "Category, SortOrder",
+      "fields": ["Title", "Category", "TaskDescription", "IconName"]
+    }
+  ]
+}

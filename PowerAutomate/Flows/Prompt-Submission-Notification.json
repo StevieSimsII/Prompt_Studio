@@ -1,0 +1,151 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "$connections": {
+        "defaultValue": {},
+        "type": "Object"
+      }
+    },
+    "triggers": {
+      "When_an_item_is_created": {
+        "recurrence": {
+          "frequency": "Minute",
+          "interval": 5
+        },
+        "splitOn": "@triggerOutputs()?['body/value']",
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AI_PROMPTS_LIST_ID'))}/onnewitems"
+        },
+        "conditions": [
+          {
+            "expression": "@equals(triggerOutputs()?['body/Status/Value'], 'Pending')"
+          }
+        ]
+      }
+    },
+    "actions": {
+      "Get_Reviewer_Group": {
+        "runAfter": {},
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('REVIEWER_GROUP_ID'))}/items"
+        }
+      },
+      "Apply_to_each_reviewer": {
+        "foreach": "@outputs('Get_Reviewer_Group')?['body/value']",
+        "actions": {
+          "Send_email_notification": {
+            "runAfter": {},
+            "type": "ApiConnection",
+            "inputs": {
+              "host": {
+                "connection": {
+                  "name": "@parameters('$connections')['office365']['connectionId']"
+                }
+              },
+              "method": "post",
+              "path": "/v2/Mail",
+              "body": {
+                "To": "@items('Apply_to_each_reviewer')?['Email']",
+                "Subject": "New AI Prompt Awaiting Review: @{triggerOutputs()?['body/Title']}",
+                "Body": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Segoe UI, Arial, sans-serif; }\n        .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n        .header { background-color: #0078D4; color: white; padding: 20px; text-align: center; }\n        .content { padding: 20px; border: 1px solid #E1DFDD; }\n        .prompt-details { background-color: #F3F2F1; padding: 15px; margin: 10px 0; }\n        .action-buttons { text-align: center; margin: 20px 0; }\n        .btn { display: inline-block; padding: 12px 24px; margin: 5px; text-decoration: none; border-radius: 4px; }\n        .btn-approve { background-color: #107C10; color: white; }\n        .btn-review { background-color: #0078D4; color: white; }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>🤖 AI Prompt Studio</h1>\n            <h2>New Prompt Awaiting Review</h2>\n        </div>\n        <div class=\"content\">\n            <p>Hello @{items('Apply_to_each_reviewer')?['DisplayName']},</p>\n            \n            <p>A new AI prompt has been submitted and requires your review:</p>\n            \n            <div class=\"prompt-details\">\n                <h3>📝 @{triggerOutputs()?['body/Title']}</h3>\n                <p><strong>Submitted by:</strong> @{triggerOutputs()?['body/SubmittedBy/DisplayName']}</p>\n                <p><strong>Task Type:</strong> @{triggerOutputs()?['body/TaskType/Value']}</p>\n                <p><strong>IT Persona:</strong> @{triggerOutputs()?['body/ITPersona/Value']}</p>\n                <p><strong>Priority:</strong> @{triggerOutputs()?['body/Priority/Value']}</p>\n                <p><strong>Submitted:</strong> @{formatDateTime(triggerOutputs()?['body/SubmittedDate'], 'MMM dd, yyyy hh:mm tt')}</p>\n            </div>\n            \n            <h4>Description:</h4>\n            <p>@{triggerOutputs()?['body/PromptDescription']}</p>\n            \n            <h4>Prompt Preview:</h4>\n            <div class=\"prompt-details\">\n                @{substring(triggerOutputs()?['body/PromptText'], 0, 200)}...\n            </div>\n            \n            <div class=\"action-buttons\">\n                <a href=\"POWER_APP_APPROVAL_URL\" class=\"btn btn-review\">📋 Review in App</a>\n            </div>\n            \n            <p><em>Note: This prompt requires approval before it becomes available to other users. Please review and take action within 2 business days.</em></p>\n            \n            <p>Best regards,<br>AI Prompt Studio System</p>\n        </div>\n    </div>\n</body>\n</html>",
+                "Importance": "Normal"
+              }
+            }
+          },
+          "Send_Teams_notification": {
+            "runAfter": {
+              "Send_email_notification": [
+                "Succeeded"
+              ]
+            },
+            "type": "ApiConnection",
+            "inputs": {
+              "host": {
+                "connection": {
+                  "name": "@parameters('$connections')['teams']['connectionId']"
+                }
+              },
+              "method": "post",
+              "path": "/v3/conversations/@{encodeURIComponent('TEAMS_CHANNEL_ID')}/activities",
+              "body": {
+                "body": {
+                  "contentType": "html",
+                  "content": "<h3>🤖 New AI Prompt Awaiting Review</h3><p><strong>@{triggerOutputs()?['body/Title']}</strong></p><p>Submitted by: @{triggerOutputs()?['body/SubmittedBy/DisplayName']}</p><p>Task Type: @{triggerOutputs()?['body/TaskType/Value']} | Persona: @{triggerOutputs()?['body/ITPersona/Value']}</p><p><a href=\"POWER_APP_APPROVAL_URL\">Review in App →</a></p>"
+                }
+              }
+            }
+          }
+        },
+        "runAfter": {
+          "Get_Reviewer_Group": [
+            "Succeeded"
+          ]
+        },
+        "type": "Foreach"
+      },
+      "Log_notification_sent": {
+        "runAfter": {
+          "Apply_to_each_reviewer": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "post",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AUDIT_LOG_LIST_ID'))}/items",
+          "body": {
+            "Title": "Prompt Submission Notification",
+            "Action": "Notification Sent",
+            "PromptID": "@{triggerOutputs()?['body/ID']}",
+            "PromptTitle": "@{triggerOutputs()?['body/Title']}",
+            "Timestamp": "@{utcNow()}",
+            "Details": "Notification sent to @{length(outputs('Get_Reviewer_Group')?['body/value'])} reviewers"
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "parameters": {
+    "$connections": {
+      "value": {
+        "sharepointonline": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/sharepointonline",
+          "connectionName": "sharepointonline",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/sharepointonline"
+        },
+        "office365": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/office365",
+          "connectionName": "office365",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/office365"
+        },
+        "teams": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/teams",
+          "connectionName": "teams",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/teams"
+        }
+      }
+    }
+  }
+}

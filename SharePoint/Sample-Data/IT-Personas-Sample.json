@@ -1,0 +1,72 @@
+[
+  {
+    "Title": "Helpdesk Technician",
+    "PersonaDescription": "Front-line IT support staff who handle user requests, troubleshoot basic issues, and escalate complex problems",
+    "Department": "Helpdesk",
+    "SortOrder": 1,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "System Administrator",
+    "PersonaDescription": "Manages servers, operating systems, and core infrastructure components",
+    "Department": "Infrastructure",
+    "SortOrder": 2,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "Network Engineer",
+    "PersonaDescription": "Designs, implements, and maintains network infrastructure and connectivity",
+    "Department": "Network",
+    "SortOrder": 3,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "Security Analyst",
+    "PersonaDescription": "Monitors security threats, investigates incidents, and implements security measures",
+    "Department": "Security",
+    "SortOrder": 4,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "Database Administrator",
+    "PersonaDescription": "Manages database systems, performance tuning, and data integrity",
+    "Department": "Database",
+    "SortOrder": 5,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "Application Support Specialist",
+    "PersonaDescription": "Supports business applications, troubleshoots application issues, and coordinates with vendors",
+    "Department": "Applications",
+    "SortOrder": 6,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "Cloud Engineer",
+    "PersonaDescription": "Manages cloud infrastructure, deployments, and cloud-native services",
+    "Department": "Cloud Services",
+    "SortOrder": 7,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "DevOps Engineer",
+    "PersonaDescription": "Manages CI/CD pipelines, automation, and infrastructure as code",
+    "Department": "DevOps",
+    "SortOrder": 8,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "IT Manager",
+    "PersonaDescription": "Oversees IT operations, manages teams, and coordinates with business stakeholders",
+    "Department": "Infrastructure",
+    "SortOrder": 9,
+    "IsActive": "Yes"
+  },
+  {
+    "Title": "Backup & Recovery Specialist",
+    "PersonaDescription": "Manages backup systems, disaster recovery planning, and data restoration",
+    "Department": "Infrastructure",
+    "SortOrder": 10,
+    "IsActive": "Yes"
+  }
+]

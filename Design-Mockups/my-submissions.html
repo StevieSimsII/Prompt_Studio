@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Submissions - AI Prompt Studio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">AI</div>
+                AI Prompt Studio
+            </a>
+            
+            <nav>
+                <ul class="nav">
+                    <li><a href="home.html" class="nav-link">Home</a></li>
+                    <li><a href="browse.html" class="nav-link">Browse</a></li>
+                    <li><a href="submit.html" class="nav-link">Submit</a></li>
+                    <li><a href="my-submissions.html" class="nav-link active">My Submissions</a></li>
+                    <li><a href="approval.html" class="nav-link">Approvals</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">My Submissions</h1>
+            <p class="page-subtitle">Track your submitted prompts and their approval status. Edit drafts and resubmit rejected prompts.</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid mb-4">
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Needs Revision</div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div style="display: flex; gap: 16px; margin-bottom: 32px; border-bottom: 1px solid var(--border-color);">
+            <button style="padding: 12px 0; border: none; background: none; color: var(--accent-color); border-bottom: 2px solid var(--accent-color); font-weight: 500;">All (8)</button>
+            <button style="padding: 12px 0; border: none; background: none; color: var(--text-secondary); border-bottom: 2px solid transparent; font-weight: 500;">Pending (2)</button>
+            <button style="padding: 12px 0; border: none; background: none; color: var(--text-secondary); border-bottom: 2px solid transparent; font-weight: 500;">Approved (5)</button>
+            <button style="padding: 12px 0; border: none; background: none; color: var(--text-secondary); border-bottom: 2px solid transparent; font-weight: 500;">Needs Revision (1)</button>
+            <button style="padding: 12px 0; border: none; background: none; color: var(--text-secondary); border-bottom: 2px solid transparent; font-weight: 500;">Drafts (0)</button>
+        </div>
+
+        <!-- Submissions List -->
+        <div class="grid grid-1">
+            <!-- Approved Submission -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 class="card-title">Azure Resource Optimization Analysis</h3>
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <span class="badge badge-primary">Performance Analysis</span>
+                                <span class="badge badge-secondary">Cloud Engineer</span>
+                            </div>
+                        </div>
+                        <span class="status status-approved">
+                            <span class="status-dot"></span>
+                            Approved
+                        </span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        Analyzes Azure resource utilization and provides cost optimization recommendations with specific action items and expected savings.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-secondary);">
+                        <div>
+                            <span>Submitted: March 15, 2025</span> • 
+                            <span>Approved: March 16, 2025</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <span>👁 24 views</span>
+                            <span>📋 3 copies</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Edit</button>
+                    <button class="btn btn-secondary">View Analytics</button>
+                </div>
+            </div>
+
+            <!-- Pending Submission -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 class="card-title">PowerShell Error Diagnostic Script</h3>
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <span class="badge badge-success">Script Generation</span>
+                                <span class="badge badge-secondary">System Administrator</span>
+                            </div>
+                        </div>
+                        <span class="status status-pending">
+                            <span class="status-dot"></span>
+                            Pending Review
+                        </span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        Creates PowerShell scripts to diagnose and log common system errors with automated remediation suggestions.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-secondary);">
+                        <div>
+                            <span>Submitted: March 18, 2025</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--warning-color);">⏰ 2 days in review</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Edit</button>
+                    <button class="btn btn-secondary">Withdraw</button>
+                </div>
+            </div>
+
+            <!-- Needs Revision -->
+            <div class="card" style="border-left: 4px solid var(--danger-color);">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 class="card-title">Network Security Assessment Guide</h3>
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <span class="badge badge-danger">Security Assessment</span>
+                                <span class="badge badge-secondary">Security Analyst</span>
+                            </div>
+                        </div>
+                        <span class="status status-rejected">
+                            <span class="status-dot"></span>
+                            Needs Revision
+                        </span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        Provides comprehensive network security assessment procedures for identifying vulnerabilities and compliance gaps.
+                    </p>
+                    
+                    <!-- Feedback Section -->
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 16px;">
+                        <h5 style="color: var(--warning-color); margin-bottom: 8px; font-size: 14px; font-weight: 600;">📝 Reviewer Feedback</h5>
+                        <p style="color: #856404; font-size: 13px; margin: 0;">
+                            "The prompt needs more specific guidance on tool selection and output formats. Consider adding examples of expected results and clearer step-by-step procedures."
+                        </p>
+                        <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
+                            — Sarah Chen, Security Team Lead
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-secondary);">
+                        <div>
+                            <span>Submitted: March 12, 2025</span> • 
+                            <span>Reviewed: March 14, 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">Revise & Resubmit</button>
+                    <button class="btn btn-secondary">View Feedback</button>
+                    <button class="btn btn-secondary">Delete</button>
+                </div>
+            </div>
+
+            <!-- Another Approved Submission -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 class="card-title">Incident Communication Template</h3>
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <span class="badge badge-primary">User Communication</span>
+                                <span class="badge badge-secondary">Helpdesk Technician</span>
+                            </div>
+                        </div>
+                        <span class="status status-approved">
+                            <span class="status-dot"></span>
+                            Approved
+                        </span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        Creates professional incident communication templates for different stakeholder groups with appropriate technical detail levels.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-secondary);">
+                        <div>
+                            <span>Submitted: March 10, 2025</span> • 
+                            <span>Approved: March 11, 2025</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <span>👁 18 views</span>
+                            <span>📋 7 copies</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Edit</button>
+                    <button class="btn btn-secondary">View Analytics</button>
+                </div>
+            </div>
+
+            <!-- Another Pending -->
+            <div class="card">
+                <div class="card-header">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 class="card-title">Database Performance Tuning Guide</h3>
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <span class="badge badge-primary">Performance Analysis</span>
+                                <span class="badge badge-secondary">Database Administrator</span>
+                            </div>
+                        </div>
+                        <span class="status status-pending">
+                            <span class="status-dot"></span>
+                            Under Review
+                        </span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                        Comprehensive database performance analysis with specific tuning recommendations for SQL Server environments.
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-secondary);">
+                        <div>
+                            <span>Submitted: March 17, 2025</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--warning-color);">⏰ 3 days in review</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">View Details</button>
+                    <button class="btn btn-secondary">Edit</button>
+                    <button class="btn btn-secondary">Withdraw</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card mt-4">
+            <div class="card-content text-center">
+                <h3 style="margin-bottom: 16px; color: var(--primary-color);">Ready to contribute more?</h3>
+                <p style="margin-bottom: 24px; color: var(--text-secondary);">Help your team by sharing another valuable AI prompt</p>
+                <a href="submit.html" class="btn btn-primary">Submit New Prompt</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

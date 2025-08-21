@@ -1,0 +1,183 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "$connections": {
+        "defaultValue": {},
+        "type": "Object"
+      }
+    },
+    "triggers": {
+      "When_an_item_is_modified": {
+        "recurrence": {
+          "frequency": "Minute",
+          "interval": 2
+        },
+        "splitOn": "@triggerOutputs()?['body/value']",
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AI_PROMPTS_LIST_ID'))}/onupdateditems"
+        },
+        "conditions": [
+          {
+            "expression": "@or(equals(triggerOutputs()?['body/Status/Value'], 'Approved'), equals(triggerOutputs()?['body/Status/Value'], 'Rejected'))"
+          }
+        ]
+      }
+    },
+    "actions": {
+      "Condition_Check_Status": {
+        "actions": {
+          "Send_approval_notification": {
+            "runAfter": {},
+            "type": "ApiConnection",
+            "inputs": {
+              "host": {
+                "connection": {
+                  "name": "@parameters('$connections')['office365']['connectionId']"
+                }
+              },
+              "method": "post",
+              "path": "/v2/Mail",
+              "body": {
+                "To": "@triggerOutputs()?['body/SubmittedBy/Email']",
+                "Subject": "✅ Your AI Prompt has been Approved: @{triggerOutputs()?['body/Title']}",
+                "Body": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Segoe UI, Arial, sans-serif; }\n        .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n        .header { background-color: #107C10; color: white; padding: 20px; text-align: center; }\n        .content { padding: 20px; border: 1px solid #E1DFDD; }\n        .success-box { background-color: #DFF6DD; border-left: 4px solid #107C10; padding: 15px; margin: 15px 0; }\n        .prompt-details { background-color: #F3F2F1; padding: 15px; margin: 10px 0; }\n        .btn { display: inline-block; padding: 12px 24px; margin: 10px 0; text-decoration: none; border-radius: 4px; background-color: #0078D4; color: white; text-align: center; }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>🎉 Congratulations!</h1>\n            <h2>Your AI Prompt has been Approved</h2>\n        </div>\n        <div class=\"content\">\n            <p>Hello @{triggerOutputs()?['body/SubmittedBy/DisplayName']},</p>\n            \n            <div class=\"success-box\">\n                <h3>✅ Approval Confirmed</h3>\n                <p>Your prompt \"<strong>@{triggerOutputs()?['body/Title']}</strong>\" has been approved and is now available for all users to discover and use.</p>\n            </div>\n            \n            <div class=\"prompt-details\">\n                <h4>Prompt Details:</h4>\n                <p><strong>Task Type:</strong> @{triggerOutputs()?['body/TaskType/Value']}</p>\n                <p><strong>IT Persona:</strong> @{triggerOutputs()?['body/ITPersona/Value']}</p>\n                <p><strong>Approved by:</strong> @{triggerOutputs()?['body/ApprovedBy/DisplayName']}</p>\n                <p><strong>Approved on:</strong> @{formatDateTime(triggerOutputs()?['body/ApprovedDate'], 'MMM dd, yyyy hh:mm tt')}</p>\n            </div>\n            \n            <p>Your contribution to the AI Prompt Studio helps the entire IT organization work more efficiently. Thank you for sharing your expertise!</p>\n            \n            <div style=\"text-align: center;\">\n                <a href=\"POWER_APP_BROWSE_URL\" class=\"btn\">🔍 View Your Prompt in the Studio</a>\n            </div>\n            \n            <p><strong>What's Next?</strong></p>\n            <ul>\n                <li>Your prompt is now searchable by task type and persona</li>\n                <li>Other team members can copy and use your prompt</li>\n                <li>You can track usage through the \"My Submissions\" section</li>\n                <li>Consider submitting more prompts to help the team!</li>\n            </ul>\n            \n            <p>Best regards,<br>AI Prompt Studio Team</p>\n        </div>\n    </div>\n</body>\n</html>",
+                "Importance": "Normal"
+              }
+            }
+          },
+          "Post_to_Teams_success": {
+            "runAfter": {
+              "Send_approval_notification": [
+                "Succeeded"
+              ]
+            },
+            "type": "ApiConnection",
+            "inputs": {
+              "host": {
+                "connection": {
+                  "name": "@parameters('$connections')['teams']['connectionId']"
+                }
+              },
+              "method": "post",
+              "path": "/v3/conversations/@{encodeURIComponent('TEAMS_CHANNEL_ID')}/activities",
+              "body": {
+                "body": {
+                  "contentType": "html",
+                  "content": "<h3>✅ Prompt Approved</h3><p><strong>@{triggerOutputs()?['body/Title']}</strong></p><p>Submitted by: @{triggerOutputs()?['body/SubmittedBy/DisplayName']}</p><p>Approved by: @{triggerOutputs()?['body/ApprovedBy/DisplayName']}</p><p>Now available in the <a href=\"POWER_APP_BROWSE_URL\">AI Prompt Studio</a></p>"
+                }
+              }
+            }
+          }
+        },
+        "runAfter": {},
+        "else": {
+          "actions": {
+            "Send_rejection_notification": {
+              "runAfter": {},
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['office365']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/v2/Mail",
+                "body": {
+                  "To": "@triggerOutputs()?['body/SubmittedBy/Email']",
+                  "Subject": "❌ Update Required: Your AI Prompt Needs Revision - @{triggerOutputs()?['body/Title']}",
+                  "Body": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Segoe UI, Arial, sans-serif; }\n        .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n        .header { background-color: #D13438; color: white; padding: 20px; text-align: center; }\n        .content { padding: 20px; border: 1px solid #E1DFDD; }\n        .feedback-box { background-color: #FDE7E9; border-left: 4px solid #D13438; padding: 15px; margin: 15px 0; }\n        .prompt-details { background-color: #F3F2F1; padding: 15px; margin: 10px 0; }\n        .btn { display: inline-block; padding: 12px 24px; margin: 10px 0; text-decoration: none; border-radius: 4px; background-color: #0078D4; color: white; text-align: center; }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>📝 Revision Requested</h1>\n            <h2>Your AI Prompt Needs Some Updates</h2>\n        </div>\n        <div class=\"content\">\n            <p>Hello @{triggerOutputs()?['body/SubmittedBy/DisplayName']},</p>\n            \n            <p>Thank you for submitting your AI prompt. While we appreciate your contribution, the reviewers have identified some areas that need improvement before approval.</p>\n            \n            <div class=\"prompt-details\">\n                <h4>Prompt Details:</h4>\n                <p><strong>Title:</strong> @{triggerOutputs()?['body/Title']}</p>\n                <p><strong>Task Type:</strong> @{triggerOutputs()?['body/TaskType/Value']}</p>\n                <p><strong>IT Persona:</strong> @{triggerOutputs()?['body/ITPersona/Value']}</p>\n                <p><strong>Reviewed by:</strong> @{triggerOutputs()?['body/RejectedBy/DisplayName']}</p>\n                <p><strong>Review Date:</strong> @{formatDateTime(triggerOutputs()?['body/RejectedDate'], 'MMM dd, yyyy hh:mm tt')}</p>\n            </div>\n            \n            <div class=\"feedback-box\">\n                <h4>📋 Reviewer Feedback:</h4>\n                <p>@{if(empty(triggerOutputs()?['body/RejectionReason']), 'No specific feedback provided. Please review prompt quality guidelines and resubmit.', triggerOutputs()?['body/RejectionReason'])}</p>\n            </div>\n            \n            <p><strong>Next Steps:</strong></p>\n            <ol>\n                <li>Review the feedback provided above</li>\n                <li>Update your prompt based on the suggestions</li>\n                <li>Resubmit your improved prompt for review</li>\n            </ol>\n            \n            <p><strong>Quality Guidelines Reminder:</strong></p>\n            <ul>\n                <li>Prompts should be clear, specific, and actionable</li>\n                <li>Include context about when and how to use the prompt</li>\n                <li>Ensure the prompt is relevant to the selected persona and task type</li>\n                <li>Provide expected output descriptions</li>\n            </ul>\n            \n            <div style=\"text-align: center;\">\n                <a href=\"POWER_APP_SUBMIT_URL\" class=\"btn\">🔄 Submit Revised Prompt</a>\n            </div>\n            \n            <p>Don't let this discourage you! Every prompt helps our team work more effectively, and we want to ensure the highest quality for all users.</p>\n            \n            <p>Best regards,<br>AI Prompt Studio Team</p>\n        </div>\n    </div>\n</body>\n</html>",
+                  "Importance": "Normal"
+                }
+              }
+            }
+          }
+        },
+        "expression": {
+          "equals": [
+            "@triggerOutputs()?['body/Status/Value']",
+            "Approved"
+          ]
+        },
+        "type": "If"
+      },
+      "Update_approval_timestamp": {
+        "runAfter": {
+          "Condition_Check_Status": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "patch",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AI_PROMPTS_LIST_ID'))}/items/@{encodeURIComponent(triggerOutputs()?['body/ID'])}",
+          "body": {
+            "LastModified": "@{utcNow()}"
+          }
+        }
+      },
+      "Log_approval_action": {
+        "runAfter": {
+          "Update_approval_timestamp": [
+            "Succeeded"
+          ]
+        },
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "post",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('SHAREPOINT_SITE_URL'))}/tables/@{encodeURIComponent(encodeURIComponent('AUDIT_LOG_LIST_ID'))}/items",
+          "body": {
+            "Title": "Prompt Decision Notification",
+            "Action": "@{triggerOutputs()?['body/Status/Value']}",
+            "PromptID": "@{triggerOutputs()?['body/ID']}",
+            "PromptTitle": "@{triggerOutputs()?['body/Title']}",
+            "ReviewerEmail": "@{if(equals(triggerOutputs()?['body/Status/Value'], 'Approved'), triggerOutputs()?['body/ApprovedBy/Email'], triggerOutputs()?['body/RejectedBy/Email'])}",
+            "Timestamp": "@{utcNow()}",
+            "Details": "Notification sent to submitter: @{triggerOutputs()?['body/SubmittedBy/Email']}"
+          }
+        }
+      }
+    },
+    "outputs": {}
+  },
+  "parameters": {
+    "$connections": {
+      "value": {
+        "sharepointonline": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/sharepointonline",
+          "connectionName": "sharepointonline",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/sharepointonline"
+        },
+        "office365": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/office365",
+          "connectionName": "office365",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/office365"
+        },
+        "teams": {
+          "connectionId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/RESOURCE_GROUP/providers/Microsoft.Web/connections/teams",
+          "connectionName": "teams",
+          "id": "/subscriptions/SUBSCRIPTION_ID/providers/Microsoft.Web/locations/LOCATION/managedApis/teams"
+        }
+      }
+    }
+  }
+}

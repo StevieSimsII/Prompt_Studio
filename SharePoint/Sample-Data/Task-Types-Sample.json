@@ -1,0 +1,98 @@
+[
+  {
+    "Title": "Incident Troubleshooting",
+    "TaskDescription": "Diagnosing and resolving technical incidents and outages",
+    "Category": "Incident Management",
+    "SortOrder": 1,
+    "IsActive": "Yes",
+    "IconName": "Bug"
+  },
+  {
+    "Title": "Root Cause Analysis",
+    "TaskDescription": "Identifying underlying causes of recurring problems",
+    "Category": "Problem Solving",
+    "SortOrder": 2,
+    "IsActive": "Yes",
+    "IconName": "SearchAndApps"
+  },
+  {
+    "Title": "Documentation Creation",
+    "TaskDescription": "Creating technical documentation, procedures, and knowledge base articles",
+    "Category": "Documentation",
+    "SortOrder": 3,
+    "IsActive": "Yes",
+    "IconName": "Documentation"
+  },
+  {
+    "Title": "Performance Analysis",
+    "TaskDescription": "Analyzing system performance metrics and identifying optimization opportunities",
+    "Category": "Analysis & Reporting",
+    "SortOrder": 4,
+    "IsActive": "Yes",
+    "IconName": "BarChart4"
+  },
+  {
+    "Title": "Script Generation",
+    "TaskDescription": "Creating automation scripts and code snippets",
+    "Category": "Automation",
+    "SortOrder": 5,
+    "IsActive": "Yes",
+    "IconName": "Code"
+  },
+  {
+    "Title": "User Communication",
+    "TaskDescription": "Crafting clear communication to end users about issues, changes, or procedures",
+    "Category": "Communication",
+    "SortOrder": 6,
+    "IsActive": "Yes",
+    "IconName": "Mail"
+  },
+  {
+    "Title": "Knowledge Transfer",
+    "TaskDescription": "Creating training materials and knowledge sharing content",
+    "Category": "Training & Knowledge",
+    "SortOrder": 7,
+    "IsActive": "Yes",
+    "IconName": "Education"
+  },
+  {
+    "Title": "Capacity Planning",
+    "TaskDescription": "Planning for future resource needs and growth",
+    "Category": "Planning & Strategy",
+    "SortOrder": 8,
+    "IsActive": "Yes",
+    "IconName": "Planning"
+  },
+  {
+    "Title": "Security Assessment",
+    "TaskDescription": "Evaluating security posture and identifying vulnerabilities",
+    "Category": "Analysis & Reporting",
+    "SortOrder": 9,
+    "IsActive": "Yes",
+    "IconName": "Shield"
+  },
+  {
+    "Title": "Change Management",
+    "TaskDescription": "Planning and implementing system changes",
+    "Category": "Planning & Strategy",
+    "SortOrder": 10,
+    "IsActive": "Yes",
+    "IconName": "Settings"
+  },
+  {
+    "Title": "Monitoring Setup",
+    "TaskDescription": "Configuring monitoring and alerting systems",
+    "Category": "Automation",
+    "SortOrder": 11,
+    "IsActive": "Yes",
+    "IconName": "ViewDashboard"
+  },
+  {
+    "Title": "Vendor Communication",
+    "TaskDescription": "Communicating with vendors and third-party support",
+    "Category": "Communication",
+    "SortOrder": 12,
+    "IsActive": "Yes",
+    "IconName": "People"
+  }
+]

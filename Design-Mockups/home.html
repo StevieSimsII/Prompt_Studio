@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Studio - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">AI</div>
+                AI Prompt Studio
+            </a>
+            
+            <nav>
+                <ul class="nav">
+                    <li><a href="home.html" class="nav-link active">Home</a></li>
+                    <li><a href="browse.html" class="nav-link">Browse</a></li>
+                    <li><a href="submit.html" class="nav-link">Submit</a></li>
+                    <li><a href="my-submissions.html" class="nav-link">My Submissions</a></li>
+                    <li><a href="approval.html" class="nav-link">Approvals</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-menu">
+                <div class="user-avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Welcome to AI Prompt Studio</h1>
+            <p class="page-subtitle">Discover, share, and organize AI prompts specifically designed for IT professionals. Leverage the collective expertise of your team to work more efficiently with AI tools.</p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">247</div>
+                <div class="stat-label">Total Prompts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">My Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">34</div>
+                <div class="stat-label">This Week</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-2 mb-4">
+            <div class="card">
+                <div class="card-content">
+                    <h3 class="card-title mb-2">🚀 Submit New Prompt</h3>
+                    <p class="card-subtitle mb-3">Share your AI expertise with the team. Help others solve similar challenges faster.</p>
+                    <a href="submit.html" class="btn btn-primary">Create Prompt</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <h3 class="card-title mb-2">🔍 Browse Library</h3>
+                    <p class="card-subtitle mb-3">Explore our collection of IT-focused AI prompts organized by role and task type.</p>
+                    <a href="browse.html" class="btn btn-secondary">Browse Prompts</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Activity</h2>
+                <p class="card-subtitle">Latest prompts and approvals</p>
+            </div>
+            <div class="card-content">
+                <div class="grid grid-1">
+                    <!-- Activity Item 1 -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px;">
+                        <div>
+                            <h4 style="margin-bottom: 4px; color: var(--primary-color);">Server Performance Analysis Prompt</h4>
+                            <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Helps system administrators analyze server performance data and create actionable improvement plans</p>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span class="badge badge-primary">Performance Analysis</span>
+                                <span class="badge badge-secondary">System Administrator</span>
+                                <span class="status status-approved">
+                                    <span class="status-dot"></span>
+                                    Approved
+                                </span>
+                            </div>
+                        </div>
+                        <div style="text-align: right; color: var(--text-secondary); font-size: 12px;">
+                            <div>by Sarah Chen</div>
+                            <div>2 hours ago</div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Item 2 -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 12px;">
+                        <div>
+                            <h4 style="margin-bottom: 4px; color: var(--primary-color);">Network Troubleshooting Guide Generator</h4>
+                            <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Creates detailed network troubleshooting procedures for common network issues</p>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span class="badge badge-warning">Incident Troubleshooting</span>
+                                <span class="badge badge-secondary">Network Engineer</span>
+                                <span class="status status-pending">
+                                    <span class="status-dot"></span>
+                                    Pending Review
+                                </span>
+                            </div>
+                        </div>
+                        <div style="text-align: right; color: var(--text-secondary); font-size: 12px;">
+                            <div>by Mike Rodriguez</div>
+                            <div>5 hours ago</div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Item 3 -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                        <div>
+                            <h4 style="margin-bottom: 4px; color: var(--primary-color);">Security Incident Response Plan</h4>
+                            <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Generates structured incident response plans for security events</p>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span class="badge badge-danger">Security Assessment</span>
+                                <span class="badge badge-secondary">Security Analyst</span>
+                                <span class="status status-approved">
+                                    <span class="status-dot"></span>
+                                    Approved
+                                </span>
+                            </div>
+                        </div>
+                        <div style="text-align: right; color: var(--text-secondary); font-size: 12px;">
+                            <div>by Alex Kim</div>
+                            <div>1 day ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="browse.html" class="btn btn-secondary">View All Activity</a>
+            </div>
+        </div>
+
+        <!-- Popular Categories -->
+        <div class="mt-4">
+            <h2 style="margin-bottom: 24px; color: var(--primary-color);">Popular Categories</h2>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-content text-center">
+                        <div style="font-size: 32px; margin-bottom: 12px;">🔧</div>
+                        <h4 class="card-title mb-1">Troubleshooting</h4>
+                        <p class="card-subtitle">67 prompts</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-content text-center">
+                        <div style="font-size: 32px; margin-bottom: 12px;">📊</div>
+                        <h4 class="card-title mb-1">Analysis</h4>
+                        <p class="card-subtitle">45 prompts</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-content text-center">
+                        <div style="font-size: 32px; margin-bottom: 12px;">📝</div>
+                        <h4 class="card-title mb-1">Documentation</h4>
+                        <p class="card-subtitle">38 prompts</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-content text-center">
+                        <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
+                        <h4 class="card-title mb-1">Security</h4>
+                        <p class="card-subtitle">29 prompts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

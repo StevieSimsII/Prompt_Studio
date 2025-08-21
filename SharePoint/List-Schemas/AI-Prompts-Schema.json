@@ -1,0 +1,160 @@
+{
+  "listName": "AI Prompts",
+  "description": "Main list storing all submitted AI prompts with approval workflow",
+  "columns": [
+    {
+      "name": "Title",
+      "type": "Single line of text",
+      "required": true,
+      "description": "Short, descriptive name for the prompt"
+    },
+    {
+      "name": "PromptText",
+      "type": "Multiple lines of text",
+      "required": true,
+      "richText": true,
+      "description": "The actual AI prompt text"
+    },
+    {
+      "name": "PromptDescription",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Description of what the prompt does and when to use it"
+    },
+    {
+      "name": "TaskType",
+      "type": "Lookup",
+      "required": true,
+      "lookupList": "Task Types",
+      "lookupField": "Title",
+      "description": "Type of task this prompt helps with"
+    },
+    {
+      "name": "ITPersona",
+      "type": "Lookup",
+      "required": true,
+      "lookupList": "IT Personas",
+      "lookupField": "Title",
+      "description": "IT persona this prompt is designed for"
+    },
+    {
+      "name": "SubmittedBy",
+      "type": "Person or Group",
+      "required": true,
+      "description": "Person who submitted the prompt"
+    },
+    {
+      "name": "SubmittedDate",
+      "type": "Date and Time",
+      "required": true,
+      "defaultValue": "Today",
+      "description": "When the prompt was submitted"
+    },
+    {
+      "name": "Status",
+      "type": "Choice",
+      "required": true,
+      "defaultValue": "Pending",
+      "choices": [
+        "Pending",
+        "Approved",
+        "Rejected",
+        "Under Review"
+      ],
+      "description": "Current approval status of the prompt"
+    },
+    {
+      "name": "ApprovedBy",
+      "type": "Person or Group",
+      "required": false,
+      "description": "Person who approved the prompt"
+    },
+    {
+      "name": "ApprovedDate",
+      "type": "Date and Time",
+      "required": false,
+      "description": "When the prompt was approved"
+    },
+    {
+      "name": "RejectedBy",
+      "type": "Person or Group",
+      "required": false,
+      "description": "Person who rejected the prompt"
+    },
+    {
+      "name": "RejectedDate",
+      "type": "Date and Time",
+      "required": false,
+      "description": "When the prompt was rejected"
+    },
+    {
+      "name": "RejectionReason",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Reason for rejection (if applicable)"
+    },
+    {
+      "name": "Tags",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Comma-separated tags for better searchability"
+    },
+    {
+      "name": "UseCase",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Specific use case or scenario where this prompt is helpful"
+    },
+    {
+      "name": "ExpectedOutput",
+      "type": "Multiple lines of text",
+      "required": false,
+      "description": "Description of what type of output the prompt should generate"
+    },
+    {
+      "name": "Priority",
+      "type": "Choice",
+      "required": false,
+      "defaultValue": "Medium",
+      "choices": [
+        "Low",
+        "Medium",
+        "High"
+      ],
+      "description": "Priority level for review"
+    },
+    {
+      "name": "ViewCount",
+      "type": "Number",
+      "required": false,
+      "defaultValue": 0,
+      "description": "Number of times this prompt has been viewed"
+    },
+    {
+      "name": "LastModified",
+      "type": "Date and Time",
+      "required": false,
+      "description": "When the prompt was last modified"
+    }
+  ],
+  "views": [
+    {
+      "name": "Pending Approval",
+      "filter": "Status eq 'Pending' or Status eq 'Under Review'",
+      "sortBy": "Priority desc, SubmittedDate",
+      "fields": ["Title", "SubmittedBy", "TaskType", "ITPersona", "Priority", "SubmittedDate"]
+    },
+    {
+      "name": "Approved Prompts",
+      "filter": "Status eq 'Approved'",
+      "sortBy": "ApprovedDate desc",
+      "fields": ["Title", "TaskType", "ITPersona", "SubmittedBy", "ApprovedDate", "ViewCount"]
+    },
+    {
+      "name": "My Submissions",
+      "filter": "[Me]",
+      "sortBy": "SubmittedDate desc",
+      "fields": ["Title", "Status", "TaskType", "ITPersona", "SubmittedDate"]
+    }
+  ]
+}
