@@ -9,6 +9,10 @@ A comprehensive Power Platform solution for IT organizations to submit, organize
 
 *Interactive demonstration showcasing the complete AI Prompt Studio interface - from browsing prompts to submission and approval workflows*
 
+### 📹 Video Options
+- **🎞️ Watch above:** Embedded GIF demo
+- **📥 Download HD:** [Full Video (MP4)](./Prompt_Studio_Demo.mp4) - Right-click → "Save as" for offline viewing
+
 ## Features
 - **Prompt Submission**: Users can submit custom AI prompts with categorization
 - **Organization**: Prompts organized by Task Type and IT Persona
